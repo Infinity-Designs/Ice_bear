@@ -1,0 +1,21 @@
+-- Local Script inside StarterPlayer>StarterPlayerScripts
+local Player = game.Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local RemoteFunctions = ReplicatedStorage:WaitForChild("RemoteFunctions") -- Folder, add one in with the name "RemoteFunctions"
+		local FilterTextFunction = RemoteFunctions:WaitForChild("FilterTextFunction") -- RemoteFunction, add into the above folder with the name "FilterTextEvent"
+local NameGui = Player.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("Textbox") -- Change to the hierarchy of the textbox
+local OriginalNameQuestion = "" -- Change to what your question is
+
+NameGui.FocusLost:connect(EnterPressed)
+	if NameGui.Text ~= "" and NameGui.Text ~= OriginalNameQuestion then
+		local SaveTempText = NameGui.Text
+		NameGui.Text = "..."
+		print("Filtering text")
+		local TextFiltered = FilterTextEvent:InvokeServer(NameGui.Text)
+		if TextFiltered then
+			NameGui.Text = SaveTempText
+		else
+			NameGui.Text = "Invalid!"
+		end
+	end
+end)
