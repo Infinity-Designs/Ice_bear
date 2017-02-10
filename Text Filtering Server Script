@@ -1,0 +1,21 @@
+--Inside Server Script
+local Chat = game:GetService("Chat")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local RemoteFunctions = ReplicatedStorage:WaitForChild("RemoteFunctions")
+		local TextFilterFunction = RemoteFuncions:WaitForChild("TextFilterFunction")
+
+function TextFilteredFunction:OnServerInvoke(Player, Message)
+	print(Message)
+	if Message and Message ~= "" then
+		local FilteredText = ""
+		local Filter = pcall(function()
+			FilteredText = Chat:FilterTextForBroadcast(Message, Player)
+		end)
+		if Filter then
+			print(FilteredText)
+			return FilteredText
+		else
+			return false
+		end
+	end
+end
